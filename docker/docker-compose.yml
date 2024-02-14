@@ -1,0 +1,16 @@
+services:
+  recommender-app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.webapp
+    ports:
+      - "7860:7860"
+    depends_on:
+      - annoy-api
+
+  annoy-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.annoy
+    ports:
+      - "5000:5000"

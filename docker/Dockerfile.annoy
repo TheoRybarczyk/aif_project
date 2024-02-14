@@ -1,0 +1,19 @@
+FROM python:3.9
+
+WORKDIR /app
+
+# Install Annoy API related modules and data
+COPY ./annoy_api.py /app/
+COPY ./annoy_requirements.txt /app/
+COPY ./data/posters.ann /app/data/
+COPY ./data/posters_paths.txt /app/data/
+
+# Install python requirements
+RUN pip install -r annoy_requirements.txt
+
+# expose Flask port
+EXPOSE 5000
+
+# start service
+ENTRYPOINT python annoy_api.py --docker
+

@@ -1,0 +1,29 @@
+FROM python:3.9
+
+# Install extra packages if required
+# RUN apt update && apt install -y
+
+WORKDIR /app
+
+# Install Recommender Webapp related modules and data
+COPY ./recommender_requirements.txt /app/
+COPY ./image_embedder.py /app/
+COPY ./recommender_webapp.py /app/
+COPY ./data/mobilenet_dict /app/data/
+COPY ./data/posters_paths.txt /app/data/
+COPY ./data/posters/* /app/data/posters/
+
+# Install python requirements
+RUN pip install -r recommender_requirements.txt
+
+# activate the conda environment
+#ENV PATH /opt/conda/envs/aifproject/bin:$PATH
+#ENV GRADIO_SERVER_NAME=0.0.0.0
+
+# expose gradio port
+EXPOSE 7860
+
+# start service
+ENTRYPOINT python recommender_webapp.py --docker
+#CMD ["python", "recommender_webapp.py"]
+
