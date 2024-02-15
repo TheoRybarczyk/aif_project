@@ -5,10 +5,7 @@ import requests
 import json
 import gradio as gr
 
-from image_embedder import ImageEmbedder, TextBertEmbedder, TextBOWEmbedder, StemTokenizer
-
-# API_DEFAULT_ADDRESS = "127.0.0.1:5000"
-# API_DEFAULT_ADDRESS = "annoy-api:5000"
+from embedders import ImageEmbedder, TextBertEmbedder, TextBOWEmbedder, StemTokenizer
 
 TXT_METHODS = ["Bag Of Word", "DistilBert"]
 

@@ -1,12 +1,15 @@
-FROM python:3.9
+FROM python:3.10
 
 WORKDIR /app
 
 # Install Annoy API related modules and data
 COPY ./annoy_api.py /app/
-COPY ./annoy_requirements.txt /app/
-COPY ./data/posters.ann /app/data/
+COPY ./docker/annoy_requirements.txt /app/
 COPY ./data/posters_paths.txt /app/data/
+COPY ./data/posters.ann /app/data/
+COPY ./data/movies_overviews.csv /app/data/
+COPY ./data/rec_overviews_bow1000_10trees.ann /app/data/
+COPY ./data/rec_overviews_bert.ann /app/data/
 
 # Install python requirements
 RUN pip install -r annoy_requirements.txt

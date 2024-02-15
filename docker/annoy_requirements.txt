@@ -1,2 +1,4 @@
 Flask==3.0.0
 annoy==1.17.2
+pandas==2.1.2
+
