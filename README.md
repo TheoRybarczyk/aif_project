@@ -5,7 +5,10 @@ Recommender double feature:
 - recommend movies based from a text description
 
 1 - First download this project on your local drive
+
 2 - Then, please download all the data from https://drive.google.com/drive/folders/11O-a1nV0abWnvHGWfyk3r54bpG8E2gWT?usp=drive_link
 and then unzip it in the project root folder.
+
 3 - To build and run the docker images, please run `docker compose up` **from the project /docker folder**
+
 4 - Enjoy!
