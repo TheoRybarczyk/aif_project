@@ -6,9 +6,9 @@ WORKDIR /app
 COPY ./embedders.py /app/
 COPY ./recommender_webapp.py /app/
 COPY ./docker/recommender_requirements.txt /app/
-COPY ./data/mobilenet_dict /app/data/
-COPY ./data/tfidf_1000.sav /app/data/
-COPY ./data/posters/* /app/data/posters/
+COPY ./mobilenet_dict /app/
+COPY ./tfidf_5000.sav /app/
+COPY ./posters/* /app/posters/
 
 # Install python requirements
 RUN pip install -r recommender_requirements.txt

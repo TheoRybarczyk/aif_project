@@ -14,7 +14,7 @@ import torchvision.transforms as transforms
 import torchvision.models as models
 
 MOBILENETDICT = Path("mobilenet_dict")
-BOW_TFIDF = Path("tfidf_1000.sav")
+BOW_TFIDF = Path("tfidf_5000.sav")
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 nltk.download('punkt')

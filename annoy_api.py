@@ -11,7 +11,7 @@ ANNOYDB_POSTERS_DIM = 576
 ANNOYDB_POSTERS_PATH = Path("posters.ann")
 OVERVIEWS_PATH = Path("movies_overviews.csv")
 ANNOYDB_BOW_DIM = 1000
-ANNOYDB_BOW_PATH = Path("rec_overviews_bow1000_10trees.ann")
+ANNOYDB_BOW_PATH = Path("rec_overviews_bow5000_10trees.ann")
 ANNOYDB_BERT_DIM = 768
 ANNOYDB_BERT_PATH = Path("rec_overviews_bert.ann")
 
