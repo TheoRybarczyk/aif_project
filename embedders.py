@@ -7,22 +7,23 @@ import re
 import nltk
 from nltk import word_tokenize
 from nltk.stem import SnowballStemmer
-# from nltk.corpus import stopwords
-# from sklearn.feature_extraction.text import TfidfVectorizer
-from transformers import DistilBertTokenizerFast, DistilBertModel
+from transformers import DistilBertTokenizerFast, DistilBertModel #type: ignore
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 import torchvision.models as models
 
-MOBILENETDICT = Path("data/mobilenet_dict")
-BOW_TFIDF = Path("data/tfidf_1000.sav") 
-
+MOBILENETDICT = Path("mobilenet_dict")
+BOW_TFIDF = Path("tfidf_1000.sav")
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 nltk.download('punkt')
 nltk.download('stopwords')
 
 class ImageEmbedder:
+    """A wrapper class for getting image embeddings using a trained
+    Mobilenetv3.
+    """
     def __init__(self,
                  device: torch.device = DEVICE,
                  model_dict_path: Path = MOBILENETDICT
@@ -53,7 +54,15 @@ class ImageEmbedder:
         self.model = model
         self.transform = transform
         
-    def embeddings(self, img_pil: Image.Image) -> list:        
+    def embeddings(self, img_pil: Image.Image) -> list:   
+        """Return the embedding of the input data through the class model.
+
+        Args:
+            img_pil (Image.Image): inpout image
+
+        Returns:
+            list: embeddings vector
+        """
         with torch.no_grad():
             tensor = self.transform(img_pil).to(self.device) 
             tensor = tensor.unsqueeze(0) # add batch dimension
@@ -63,15 +72,22 @@ class ImageEmbedder:
     
 
 class StemTokenizer:
+    """Stem tokenizer class for Bag of Word.
+    """
     ignore_tokens = [',', '.', ';', ':', '"', '``', "''", '`', "'"]
     def __init__(self):
         self.stemmer = SnowballStemmer('english')
     def __call__(self, doc):
         doc = doc.lower()
-        return [self.stemmer.stem(t) for t in word_tokenize(re.sub("[^a-z' ]", "", doc)) if t not in self.ignore_tokens] 
+        return [self.stemmer.stem(t) 
+                for t in word_tokenize(re.sub("[^a-z' ]", "", doc)) 
+                if t not in self.ignore_tokens] 
 
     
 class TextBOWEmbedder:
+    """A wrapper class for getting text embeddings using a "trained" Bag Of
+    Word.
+    """
     def __init__(self, bow_tfidf_path: Path = BOW_TFIDF) -> None:
         
         with open(bow_tfidf_path, "rb") as file:
@@ -81,16 +97,30 @@ class TextBOWEmbedder:
         self.tfidf = tfidf
         
     def embeddings(self, text: str) -> list:
-        return np.squeeze(np.array(self.tfidf.transform([text]).todense())).tolist()
+        """Return the embedding of the input data through the class model.
+
+        Args:
+            text (str): input text string
+
+        Returns:
+            list: embeddings vector
+        """
+        return np.squeeze(np.array(self.tfidf.transform([text]).todense())) \
+            .tolist()
     
     
 class TextBertEmbedder:
+    """A wrapper class for getting text embeddings using a trained DistilBert
+    model.
+    """
     def __init__(self,
                  device: torch.device = DEVICE
                  ) -> None:
 
-        tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
-        model = DistilBertModel.from_pretrained('distilbert-base-uncased').to(device)
+        tokenizer = DistilBertTokenizerFast \
+            .from_pretrained('distilbert-base-uncased') #type: ignore
+        model = DistilBertModel \
+            .from_pretrained('distilbert-base-uncased').to(device) #type: ignore
         model.eval()
     
         self.device = device
@@ -98,9 +128,21 @@ class TextBertEmbedder:
         self.model = model
         
     def embeddings(self, text: str) -> list:
-        tokens = self.tokenizer(text, truncation=True, padding=True, return_tensors='pt')
+        """Return the embedding of the input data through the class model.
+
+        Args:
+            text (str): input text string
+
+        Returns:
+            list: embeddings vector
+        """
+        tokens = self.tokenizer(text,
+                                truncation=True,
+                                padding=True,
+                                return_tensors='pt')
         with torch.no_grad():
             input_ids = tokens["input_ids"].to(self.device)
             attention_mask = tokens["attention_mask"].to(self.device)
-            last_layer_cls = self.model(input_ids, attention_mask).last_hidden_state[:,0,:]
+            last_layer_cls = self.model(input_ids, attention_mask) \
+                .last_hidden_state[:,0,:]
         return last_layer_cls.squeeze(0).squeeze(0).cpu().tolist()

@@ -13,7 +13,17 @@ img_embedder = ImageEmbedder()
 bow_embedder = TextBOWEmbedder()
 bert_embedder = TextBertEmbedder()
 
-def recommend_by_img(img: np.ndarray | None = None, k: int = 5):
+def recommend_by_img(img: np.ndarray | None = None,
+                     k: int = 5) -> list[Image.Image]:
+    """Recommend images from an input image.
+
+    Args:
+        img (np.ndarray | None, optional): image array. Defaults to None.
+        k (int, optional): number of recommendations. Defaults to 5.
+
+    Returns:
+        list[Image.Image]: list of recommended images
+    """
     global api_adress
     
     if img is None:
@@ -24,17 +34,35 @@ def recommend_by_img(img: np.ndarray | None = None, k: int = 5):
     imgs_recom = [Image.open(p) for p in paths]
     return imgs_recom
 
-def recommend_by_txt(txt: str | None = None, k: int = 5, method: str = TXT_METHODS[0]):
+def recommend_by_txt(txt: str | None = None,
+                     k: int = 5,
+                     method: str = TXT_METHODS[0]) -> str:
+    """Recommend movies from a description.
+
+    Args:
+        txt (str | None, optional): input text description. Defaults to None.
+        k (int, optional): number of recommendations.. Defaults to 5.
+        method (str, optional): embedder method. Defaults to TXT_METHODS[0].
+
+    Returns:
+        str: recommended movies as a single string
+    """
     global api_adress
     
     if txt is None:
-        return []
-    if method == TXT_METHODS[0]:
+        return ""
+    if method == TXT_METHODS[0]: # BOW
         address = "http://" + api_address + "/predict_bow"
-        titles_overviews = _embed_send_and_receive(bow_embedder, address, txt, k)
-    elif method == TXT_METHODS[1]:
+        titles_overviews = _embed_send_and_receive(bow_embedder,
+                                                   address,
+                                                   txt,
+                                                   k)
+    elif method == TXT_METHODS[1]: # BERT
         address = "http://" + api_address + "/predict_bert"
-        titles_overviews = _embed_send_and_receive(bert_embedder, address, txt, k)
+        titles_overviews = _embed_send_and_receive(bert_embedder,
+                                                   address,
+                                                   txt,
+                                                   k)
     else:
         print(f"Invalid text embedding method {method}")
         return ""
@@ -43,7 +71,7 @@ def recommend_by_txt(txt: str | None = None, k: int = 5, method: str = TXT_METHO
         txt_recom += f"===== {ttl} =====\n{ovw}\n"
     return txt_recom
 
-def _embed_send_and_receive(embedder, address, data, k):
+def _embed_send_and_receive(embedder, address, data, k) -> list:
     global api_adress
     
     try:
@@ -58,7 +86,8 @@ def _embed_send_and_receive(embedder, address, data, k):
     if response.status_code == 200:
         return json.loads(response.content)
     else:
-        print(f"Could not get a valid response from API ({response.status_code})")
+        print(f"Could not get a valid response from API "
+              "({response.status_code})")
         return []
 
 if __name__=='__main__':
