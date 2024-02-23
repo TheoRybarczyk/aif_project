@@ -12,4 +12,4 @@ and then unzip it in the project root folder.
 3 - To build and run the docker images, please run `docker compose up` **from the project /docker folder**. \
 This step is long because of the required python modules to install. 
 
-4 - Enjoy!
+4 - Go to http://127.0.0.1:7860/ and enjoy!
