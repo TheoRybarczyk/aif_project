@@ -12,10 +12,9 @@ Then unzip the archive **so the AIF_data folder end up in the project root folde
 ![image](https://github.com/TheoRybarczyk/aif_project/assets/83536996/55131762-888e-4518-81e6-95975bfb80f3)
 
 3 - To build and run the docker images, please run `docker compose up` **from the project /docker folder**. \
-This step is long because of the required Python modules to install. 
+This step is long because of the required Python modules to install. \
+If you have some issues, you can run instead `docker compose up --no-deps --build`.
 
 4 - Go to http://127.0.0.1:7860/ and enjoy!
 
 5 - Run `docker compose down` when finished.
-
-
