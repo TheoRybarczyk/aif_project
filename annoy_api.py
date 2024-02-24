@@ -6,14 +6,14 @@ import json
 from annoy import AnnoyIndex
 from flask import Flask, Response, request, Request
 
-POSTER_PATHS = Path("posters_paths.txt")
+POSTER_PATHS = Path("AIF_data/posters_paths.txt")
 ANNOYDB_POSTERS_DIM = 576
-ANNOYDB_POSTERS_PATH = Path("posters.ann")
-OVERVIEWS_PATH = Path("movies_overviews.csv")
+ANNOYDB_POSTERS_PATH = Path("AIF_data/posters.ann")
+OVERVIEWS_PATH = Path("AIF_data/movies_overviews.csv")
 ANNOYDB_BOW_DIM = 5000
-ANNOYDB_BOW_PATH = Path("rec_overviews_bow5000_10trees.ann")
+ANNOYDB_BOW_PATH = Path("AIF_data/rec_overviews_bow5000_10trees.ann")
 ANNOYDB_BERT_DIM = 768
-ANNOYDB_BERT_PATH = Path("rec_overviews_bert.ann")
+ANNOYDB_BERT_PATH = Path("AIF_data/rec_overviews_bert.ann")
 
 class AnnoyDB():
     """A wrapper class to Annoy index.

@@ -6,10 +6,10 @@ WORKDIR /app
 COPY ./embedders.py /app/
 COPY ./recommender_webapp.py /app/
 COPY ./docker/recommender_requirements.txt /app/
-COPY ./mobilenet_dict /app/
-COPY ./tfidf_5000.sav /app/
-COPY ./posters.zip /app/
-RUN unzip -q posters.zip
+COPY ./AIF_data/mobilenet_dict.sav /app/AIF_data/
+COPY ./AIF_data/tfidf_5000.sav /app/AIF_data/
+COPY ./AIF_data/posters.zip /app/AIF_data/
+RUN unzip -q AIF_data/posters.zip -d ./AIF_data
 
 # Install python requirements
 RUN pip install -r recommender_requirements.txt

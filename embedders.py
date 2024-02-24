@@ -13,8 +13,8 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 import torchvision.models as models
 
-MOBILENETDICT = Path("mobilenet_dict")
-BOW_TFIDF = Path("tfidf_5000.sav")
+MOBILENETDICT = Path("AIF_data/mobilenet_dict.sav")
+BOW_TFIDF = Path("AIF_data/tfidf_5000.sav")
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 nltk.download('punkt')

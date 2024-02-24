@@ -5,11 +5,11 @@ WORKDIR /app
 # Install Annoy API related modules and data
 COPY ./annoy_api.py /app/
 COPY ./docker/annoy_requirements.txt /app/
-COPY ./posters_paths.txt /app/
-COPY ./posters.ann /app/
-COPY ./movies_overviews.csv /app/
-COPY ./rec_overviews_bow5000_10trees.ann /app/
-COPY ./rec_overviews_bert.ann /app/
+COPY ./AIF_data/posters_paths.txt /app/AIF_data/
+COPY ./AIF_data/posters.ann /app/AIF_data/
+COPY ./AIF_data/movies_overviews.csv /app/AIF_data/
+COPY ./AIF_data/rec_overviews_bow5000_10trees.ann /app/AIF_data/
+COPY ./AIF_data/rec_overviews_bert.ann /app/AIF_data/
 
 # Install python requirements
 RUN pip install -r annoy_requirements.txt
