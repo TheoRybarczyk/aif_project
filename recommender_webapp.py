@@ -68,10 +68,21 @@ def recommend_by_txt(txt: str | None = None,
         return ""
     txt_recom = ""
     for ttl, ovw in titles_overviews:
-        txt_recom += f"===== {ttl} =====\n{ovw}\n"
+        txt_recom += f"===== {ttl} =====\n{ovw}\n\n"
     return txt_recom
 
-def _embed_send_and_receive(embedder, address, data, k) -> list:
+def _embed_send_and_receive(embedder, address: str, data, k: int) -> list:
+    """_summary_
+
+    Args:
+        embedder (_type_): model to get data embeddings
+        address (str): API address to get recommendations from data
+        data (_type_): data to get recommendations from
+        k (int): number of recommendations to give
+
+    Returns:
+        list: list of recommendations
+    """
     global api_adress
     
     try:
@@ -118,17 +129,17 @@ if __name__=='__main__':
     output_component2 = gr.Gallery()
     
     imgrec = gr.Interface(fn=recommend_by_img, 
-                inputs=[gr.Image(),
-                        gr.Number(value=5, minimum=1, maximum=42, precision=0)], 
-                outputs=gr.Gallery(),
+                inputs=[gr.Image(label="Insert image here to get recommendations."),
+                        gr.Number(value=5, minimum=1, maximum=42, precision=0, label="Number of recommendations to get.")], 
+                outputs=gr.Gallery(label="Recommended posters."),
                 description="Select or drop an image to get a recommended movie based on its poster.",
                 )
     
     txtrec = gr.Interface(fn=recommend_by_txt, 
-                inputs=[gr.Textbox(),
-                        gr.Number(value=5, minimum=1, maximum=42, precision=0),
-                        gr.Dropdown(choices=TXT_METHODS, value=TXT_METHODS[0])], 
-                outputs=gr.Textbox(),
+                inputs=[gr.Textbox(label="Input description here to get recommendations."),
+                        gr.Number(value=5, minimum=1, maximum=42, precision=0, label="Number of recommendations to get."),
+                        gr.Dropdown(choices=TXT_METHODS, value=TXT_METHODS[0], label="Method for recommendation.")], 
+                outputs=gr.Textbox(label="Recommended movies and their description."),
                 description="Write a movie description to get some recommendations.",
                 )
     

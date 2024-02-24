@@ -8,7 +8,8 @@ COPY ./recommender_webapp.py /app/
 COPY ./docker/recommender_requirements.txt /app/
 COPY ./mobilenet_dict /app/
 COPY ./tfidf_5000.sav /app/
-COPY ./posters/* /app/posters/
+COPY ./posters.zip /app/
+RUN unzip -q posters.zip
 
 # Install python requirements
 RUN pip install -r recommender_requirements.txt
