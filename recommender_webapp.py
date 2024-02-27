@@ -143,7 +143,7 @@ if __name__=='__main__':
                 description="Write a movie description to get some recommendations.",
                 )
     
-    rec = gr.TabbedInterface([imgrec, txtrec], ["Movie recommender by iamge", "Movie recommender by description"])
+    rec = gr.TabbedInterface([imgrec, txtrec], ["Movie recommender by image", "Movie recommender by description"])
     rec.launch(server_name=server_name, server_port=server_port, debug=debug, share=share)
 
 

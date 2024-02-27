@@ -18,3 +18,6 @@ If you have some issues, you can run instead `docker compose up --no-deps --buil
 4 - Go to http://127.0.0.1:7860/ and enjoy!
 
 5 - Run `docker compose down` when finished.
+
+The project runs on two containers, one for the gradio webapp which is the user interface and one as a Annoy index API.
+For each case, a model will transform the data (image or text) into a corresponding embeddings vector. That is done on the webapp side. The app will request the Annoy API to get as a response corresponding neighbor vectors which will serve as recommendations after being translated into either poster image or movie title and description.
